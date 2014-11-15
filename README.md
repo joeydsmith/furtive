@@ -2,7 +2,9 @@
 
 A forward-thinking, lightweight, CSS microframework. Minimal by design.
 
-Furtive is __truly__ mobile-first and nearly all dimensions are done in `rem`. 
+__2.5kB gzipped.__
+
+Furtive is _truly_ mobile-first and nearly all dimensions are done in `rem`.
 It also has a small footprint, cutting down on the bandwidth necessary 
 for downloading CSS. Furtive is intended to be just that, furtive. It's 
 the perfect starting point to get your project up and running.
@@ -74,17 +76,38 @@ order to use one, you can add a `<link>` in your `<head>`.
 </html>
 ```
 
-#### Grabbing from the CDN
-
-Furtive is also available on TODO CDN, in order to link from there you can add the following to your `<head>`:
-
-```html
-<link rel="stylesheet" href="//path/to/cdn/furtive.min.css">
-```
-
 ## Usage
 
-Detailed documentation can be found at [furtive.co](http://furtive.co).
+Detailed documentation and examples can be found at [furtive.co](http://furtive.co).
+
+#### Keep Furtive as lightweight as possible
+
+It's recommended to use Furtive with [uncss](https://github.com/giakki/uncss), ensuring that
+only the CSS that is being used are included. An example of uncss in action with gulp:
+
+```javascript
+gulp.task('uncss', function() {
+  return gulp.src('css/furtive.min.css')
+    .pipe(size({ gzip: true, showFiles: true }))
+    .pipe(uncss({ html: ['index.html'] }))
+    .pipe(rename('index.furtive.min.css'))
+    .pipe(cssmin())
+    .pipe(size({ gzip: true, showFiles: true }))
+    .pipe(gulp.dest('./'));
+});
+```
+
+The above example task is what's used by [furtive.co](http://furtive.co). It allows that page
+to save about 40%, shrinking even further from 2.5kB to 1.6kB.
+
+```
+furtive [uncss●●] % gulp uncss
+[12:07:22] Using gulpfile ~/code/frnt/furtive/gulpfile.js
+[12:07:22] Starting 'uncss'...
+[12:07:22] furtive.min.css 2.52 kB (gzipped)
+[12:07:23] index.furtive.min.css 1.58 kB (gzipped)
+[12:07:23] Finished 'uncss' after 999 ms
+```
 
 ## License
 
@@ -103,5 +126,6 @@ MIT
 * [Normalize](http://necolas.github.io/normalize.css) for the foundation.
 * [BASSCSS](http://basscss.com) for the inspiration.
 * [Fluidity](http://fluidity.sexy) for the inspiration.
+* [mincss](http://mincss.com/) for the inspiration.
 
 Crafted with <3 by [John Otander](http://johnotander.com) ([@4lpine](https://twitter.com/4lpine)).
